@@ -1,68 +1,56 @@
 # tiles
 A ceramic tile pattern generator
 
-Tiles uses a YAML configuration file named `config.yaml` to generate random ceramic tile patterns. The following is a sample configuration
+Tiles uses a YAML configuration file named `config.yaml` to generate
+random ceramic tile patterns. The following is a sample configuration:
 
 ```
-# Set locale for proper currency formatting
+# Set locale for proper currency and html formatting.
 locale: 'en_US.UTF-8'
 
-# 48 inches
-width: 48
-
-# 36 inches
+# Height in inches.
 height: 36
 
-# 1-inch tiles
-tile_size: 1
+# Width in inches.
+width: 36
 
-# $30 per sq. ft.
-sq_unit_price: 30
+# Tile dimensions in inches.
+tile_size_h: 6
+tile_size_w: 3
 
-# smallest tile is 1-inch
-smallest_unit_per_box: 12
-
-colors: [
-'#eeeeee',
-'#d6e685',
-'#8cc665',
-'#44a340',
-'#1e6823',
+# Name, Cost per Box, Box Minimum (sqft/box), Hex Color Equivalent for Tile Color, Color Weight Array with weights indicating color frequencies from top to bottom of tile grid.
+tiles: [
+ ['Pearl Gloss', 13, 9.75, '#E8DDD5', [ 610, 377, 233, 144, 89, 55, 34 ]],
+ ['Salt Creek Gloss', 13, 9.75, '#ECE9DF', [ 610, 377, 233, 144, 89, 55, 34, 21 ]],
+ ['Alberta Blue Gloss', 13, 9.75, '#B0B7B6',  [ 21, 34, 55, 89, 144, 233, 377 ]],
 ]
-
-# weights are listed top to bottom
-color_weights: [
-  [ 20, 20, 9, 6, 3, 0 ],
-  [ 1,  3,  3, 6, 4, 1  ],
-  [ 1,  2,  3, 5, 8, 8  ],
-  [ 0,  0,  1, 4, 7, 12  ],
-  [ 0,  0,  1, 4, 7, 12  ],
-]
-
-# show a border between sections in the output
-show_section_boundaries: false
 ```
 
-This file sets up a 4' x 3' pattern with 4 colors and 6 vertical sections with varying color weights defined top to bottom.
-Any number of colors and section are possible but the number of sections must divide evenly into the number of rows ( height / tilesize).
-This configuration will produces an HTML file with a pattern like the following
+This file sets up a 6' x 6' pattern with 3 colors with varying color
+weights defined top to bottom, using 6x3 tiles. Any number of colors are
+possible, using a rectangular tile size of your choice. The tile pattern
+size will be adjusted to handle the minimum whole number of tiles
+necessary to cover the requested pattern & tile size.
+
+This configuration will produces an HTML file with a pattern
+like the following:
 
  ![example tile image](example.png "example tile image")
 
 
 ## Installation & usage
-
-    pip install -r requirements.txt
-    cp config.yaml.sample config.yaml
-    ./tiles.py
-
-Open `output.html` in your browser and refresh as needed.
+Ubuntu/Debian user can install the necessary python modules with:
+```bash
+  sudo apt install -y python3-yaml python3-jinja2 python3-numpy \
+  python3-matplotlib
+```
+Open the generated output file in `output/` in your browser and refresh as needed.
 
 ## License
 ```
 MIT License
 
-Copyright (c) 2016 James Moore
+Copyright (c) 2016 James Moore & 2026 Satadru Pramanik
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

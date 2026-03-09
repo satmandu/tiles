@@ -1,35 +1,20 @@
-# Set locale for proper currency formatting
+# Set locale for proper currency and html formatting.
 locale: 'en_US.UTF-8'
 
-# 60 inches
-width: 60
+# Height in inches.
+height: 36
 
-# 48 inches
-height: 48
+# Width in inches.
+width: 36
 
-# 1-inch tiles
-tile_size: 1
+# Tile dimensions in inches.
+tile_size_h: 6
+tile_size_w: 3
 
-# $30 per sq. ft.
-sq_unit_price: 30
-
-# smallest tile is 1-inch
-smallest_unit_per_box: 12
-
-colors: [
-'#ECE7D4',
-'#BCCA96',
-'#107F7E',
-'#0A516C',
+# Name, Cost per Box, Box Minimum (sqft/box), Hex Color Equivalent for Tile Color, Color Weight Array with weights indicating color frequencies from top to bottom of tile grid.
+tiles: [
+ ['Pearl Gloss', 13, 9.75, '#E8DDD5', [ 610, 377, 233, 144, 89, 55, 34 ]],
+ ['Salt Creek Gloss', 13, 9.75, '#ECE9DF', [ 610, 377, 233, 144, 89, 55, 34, 21 ]],
+ ['Alberta Blue Gloss', 13, 9.75, '#B0B7B6',  [ 21, 34, 55, 89, 144, 233, 377 ]],
 ]
 
-# weights are listed top to bottom
-color_weights: [
-  [ 20, 20, 9, 6, 3, 0 ],
-  [ 1,  3,  3, 6, 4, 1  ],
-  [ 1,  2,  3, 5, 8, 8  ],
-  [ 0,  0,  1, 4, 7, 12  ],
-]
-
-# show a border between sections in the output
-show_section_boundaries: false

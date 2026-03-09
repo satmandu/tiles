@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+<meta charset="{{ charset }}">
+<style>
+header, body, td {
+    font-family: Helvetica, sans-serif;
+    border-collapse: collapse;
+}
+@media screen {
+    header {
+        display: none;
+    }
+}
+{% for css_color in colors %}
+td.tile-color-{{ loop.index0 }} {
+    background-color: {{ css_color }};
+    width: {{ tile_size_w }}em;
+    height: {{ tile_size_h }}em;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+{% endfor %}
+
+td {
+    text-align: center;
+    vertical-align:middle;
+}
+
+#info-table-div {
+    display: flex;
+    padding: 10px;
+    border-collapse: collapse;
+    clear: both;
+}
+
+#tile-tables-div {
+    padding: 10px;
+    border-collapse: collapse;
+    clear:both;
+}
+
+.info-table { border-collapse: collapse; }
+
+.tile-table {
+    border: 1px solid black;
+    page-break-inside: avoid;
+}
+
+.tile-label {
+    mix-blend-mode: difference;
+    color: white;
+}
+
+.tile-title-label {
+    mix-blend-mode: difference;
+    color: white;
+    border-collapse: collapse;
+}
+
+.color-weight-table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.tile-info-table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    mix-blend-mode: difference;
+    color: black;
+}
+
+.title-label {
+    mix-blend-mode: difference;
+    color: black;
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+.pagebreak { page-break-after: always; }
+
+@media print {
+    header, body, td { font-family: Helvetica, sans-serif;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+{% for css_color in colors %}
+    td.tile-color-{{ loop.index0 }} {
+        background-color: {{ css_color }};
+        width: {{ tile_size_w }}em;
+        height: {{ tile_size_h }}em;
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+{% endfor %}
+    .tile-table {
+    border: 1px solid black;
+    page-break-inside: avoid;
+}
+    .title-label {
+        border: 2px solid black;
+        mix-blend-mode: difference;
+        color: black;
+        border-collapse: collapse;
+    }
+    .info-table {
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+    .tile-title-label {
+        border: 2px solid black;
+        mix-blend-mode: difference;
+        color: black;
+        border-collapse: collapse;
+    }
+    td.color-weight-table {
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+    td.tile-info-table {
+        border: 2px solid black;
+        border-collapse: collapse;
+        mix-blend-mode: difference;
+        color: black;
+    }
+    #info-table-div {
+        display: block;
+        border-collapse: collapse;
+        width: 100%;
+        padding: 10px;
+        clear:both;
+        margin: 1cm;
+    }
+    #tile-tables-div {
+        display: block;
+        border-collapse: collapse;
+        padding: 10px;
+        clear:both;
+    }
+    nav, aside, footer {
+        display: none;
+    }
+    table.paging thead td, table.paging tfoot td {
+        height: 1cm;
+    }
+    .header, .header-space,
+    .footer, .footer-space {
+        width: 100%;
+        height: 10px;
+        border-collapse: collapse;
+        text-align: center;
+        padding: 10px;
+    }
+    .header {
+        position: fixed;
+        top: 0;
+    }
+    .footer {
+        position: fixed;
+        bottom: 0;
+    }
+    @page {
+        size:a4;
+        margin: 1cm;
+    }
+}
+
+</style>
+<title>{{ job_id }}</title>
+</head>
+<body>
+    <table>
+        <thead><tr><td>
+        <div class="header-space">&nbsp;</div>
+        </td></tr></thead>
+        <tbody><tr><td>
+            <div class="header">{{ job_id }}</div>
+            <div id="info-table-div">
+                <table class="info-table">
+                        <tr><th class="title-label">Tile Size:</th><td colspan="2" class="title-label">{{ tile_size_h }}h x {{ tile_size_w }}w</td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><th class="title-label">Tile Grid Size:</th><td colspan="2" class="title-label">{{ grid_h }}h x {{ grid_w }}w</td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><th class="title-label">Tile</th><th class="title-label">Count</th><th class="title-label">Cost/sqft</th><th class="title-label">Sqft/box</th><th class="title-label">Boxes</th><th class="title-label">Box Cost</th><th class="title-label">Color Frequency Distribution (Top to Bottom)</th><td></td></tr>
+                        {% for color in colors %}
+                            <tr><td class="tile-color-{{ loop.index0 }}"><span class="tile-title-label">{{ names[loop.index0] }} {{ color }}</span></td><td class="tile-info-table">{{ tile_counts[loop.index0] }}</td><td class="tile-info-table">{{ costs[loop.index0] }}</td><td class="tile-info-table">{{ tile_sqft_per_boxes[loop.index0] }}</td><td class="tile-info-table">{{ minimum_box_buy[loop.index0] }}</td><td class="tile-info-table">{{ formatted_box_costs[loop.index0] }}</td>{% if loop.first %}<td rowspan="{{ loop.revindex }}"><img class="color-weight-table" alt="Tile Frequencies used in calculating color distribution." src="{{ job_id }}_color_weight.png"></td><td></td>{% else %}<td></td>{% endif %}</tr>
+                        {% endfor %}
+                        <tr><th class="title-label">Total Count</th><td class="title-label">{{ tile_count_total }}</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                        <tr><th class="title-label">Tile Cost</th><td class="title-label">{{ formatted_total_cost }}</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                </table>
+            </div>
+            <div class="pagebreak">&nbsp;</div>
+            <div id="tile-tables-div">
+                <table class="tile-table">
+                    {% for row in grid %}
+                    {% set rowloop = loop %}
+                    <tr>
+                        {% for color in row %}
+                            <td style="border: 0" class="tile-color-{{ color }}">&nbsp;</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+                <table class="tile-table">
+                    {% for row in grid %}
+                    {% set rowloop = loop %}
+                    <tr>
+                        {% for color in row %}
+                            <td style="border: 0" class="tile-color-{{ color }}"><span class="tile-label">{{ color }}</span></td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+    </td></tr></tbody>
+    <tfoot><tr><td>
+    <div class="footer-space">&nbsp;</div>
+    </td></tr></tfoot>
+    </table>
+</body>
+</html>
